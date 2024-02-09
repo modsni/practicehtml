@@ -38,7 +38,7 @@
 
         /* Style for the left sidebar */
         #left-sidebar {
-            flex: 1;
+            flex: 0 0 auto; /* Non-flexible, initial width, not allowed to shrink */
             background-color: #f4f4f4;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -54,27 +54,27 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
+            padding: 15px; /* Added padding */
+            border: 2px solid #333; /* Added border */
+            background-color: #fff; /* Added background color */
+            border-radius: 10px; /* Added border-radius */
+        }
+
+        /* Style for the profile image container */
+        #profile-image-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
         }
 
         /* Style for the profile image */
         #profile-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid #333;
-            overflow: hidden;
-            margin-right: 15px;
-        }
-
-        /* Style for the file input */
-        #profile-image input {
-            opacity: 0;
             width: 100%;
             height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #333;
+            object-fit: cover;
         }
 
         /* Style for the user details */
@@ -95,7 +95,7 @@
 
         /* Style for the main discussion board area */
         #discussion-board {
-            flex: 2;
+            flex: 1; /* Allow it to grow and take available space */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -131,12 +131,13 @@
             padding: 1em;
         }
 
-        /* Style for the additional features container */
-        #additional-features {
-            margin-top: 20px;
+        /* Style for the demographic section */
+        #demographic {
+            flex: 0 0 auto; /* Non-flexible, initial width, not allowed to shrink */
             padding: 20px;
             background-color: #e0e0e0; /* Light gray background color */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -152,10 +153,10 @@
         <div id="left-sidebar">
             <!-- User Profile Section -->
             <div id="user-profile">
-                <!-- Profile Image -->
-                <div id="profile-image">
-                    <!-- File Input for Image Upload -->
-                    <input type="file" id="upload" accept="image/*" />
+                <!-- Profile Image Container -->
+                <div id="profile-image-container">
+                    <!-- Profile Image -->
+                    <img id="profile-image" src="C:\Users\ADMIN\Downloads\dd5fd7d7391dda42d6612c221be30329.jpg" alt="Profile Image">
                 </div>
                 <!-- User Details -->
                 <div id="user-details">
@@ -176,8 +177,9 @@
             <div id="sidebar-links">
                 <h2>Links</h2>
                 <ul>
-                    <li><a href="#">Link 1</a></li>
-                    <li><a href="#">Link 2</a></li>
+                    <!-- Add your manual links here -->
+                    <li><a href="#">Manual Link 1</a></li>
+                    <li><a href="#">Manual Link 2</a></li>
                     <!-- Add more links as needed -->
                 </ul>
             </div>
@@ -214,13 +216,54 @@
                     <p>Add your links and image source here.</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Additional Features Container -->
-            <div id="additional-features">
-                <!-- Add your additional features or content here -->
-                <h2>Additional Features</h2>
-                <p>This is where you can add more content or features to the website.</p>
-            </div>
+        <!-- Demographic Section -->
+        <div id="demographic">
+            <h2>Demographic</h2>
+            
+            <script src="https://giscus.app/client.js"
+        data-repo="practicalstudent/practicehtml"
+        data-repo-id="R_kgDOLQHDow"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLQHDo84CdFrw"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light_high_contrast"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    <title>Embedded Calendar</title>
+    <style>
+        /* Add styles for the iframe container */
+        #calendarContainer {
+            width: 100%;
+            max-width: 800px; /* Set a maximum width if needed */
+            margin: 20px auto;
+            border: 1px solid #ccc; /* Add borders */
+            overflow: hidden;
+        }
+
+        /* Style the iframe to fill its container */
+        #calendarFrame {
+            width: 100%;
+            height: 500px;
+            border: none; /* Remove iframe border */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Container for the iframe with borders -->
+<div id="calendarContainer">
+    <!-- Embed the calendar using an iframe -->
+    <iframe id="calendarFrame" frameborder="0" width="100%" src="https://calendar.online/05ff006083fba02965ab?iframe=true"></iframe>
+</div>
         </div>
     </main>
 

@@ -1,233 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discussion Board</title>
-    <!-- Include Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+            <script src="https://giscus.app/client.js"
+        data-repo="practicalstudent/practicehtml"
+        data-repo-id="R_kgDOLQHDow"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLQHDo84CdFrw"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light_high_contrast"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    <title>Embedded Calendar</title>
     <style>
-        /* Reset some default styles and set up the overall layout */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #e6f2ff; /* Background color */
-            color: #262626; /* Text color */
-        }
-
-        /* Style for the header section */
-        header {
-            background-color: #262626;
-            color: #e6f2ff;
-            padding: 1em;
-            text-align: center;
-        }
-
-        /* Style for the main content area */
-        main {
-            flex: 1;
-            display: flex;
-        }
-
-        /* Style for the left sidebar */
-        #left-sidebar {
-            flex: 0 0 auto; /* Non-flexible, initial width, not allowed to shrink */
-            background-color: #e6f2ff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Align links to the left */
-            color: #262626;
-            min-width: 200px; /* Minimum width for the sidebar */
-        }
-
-        /* Style for the user profile section within the sidebar */
-        #user-profile {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px; /* Added padding */
-            border: 2px solid #262626; /* Added border with text color */
-            background-color: #ffddcc; /* Added background color */
-            border-radius: 10px; /* Added border-radius */
-        }
-
-        /* Style for the profile image container */
-        #profile-image-container {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin-right: 15px;
-        }
-
-        /* Style for the profile image */
-        #profile-image {
+        /* Add styles for the iframe container */
+        #calendarContainer {
             width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid #262626;
-            object-fit: cover;
+            max-width: 800px; /* Set a maximum width if needed */
+            margin: 20px auto;
+            border: 1px solid #ccc; /* Add borders */
+            overflow: hidden;
         }
 
-        /* Style for the user details */
-        #user-details {
-            text-align: left;
-        }
-
-        /* Style for the icons */
-        .icon {
-            margin-right: 5px;
-            color: #262626;
-        }
-
-        /* Style for the links section within the sidebar */
-        #sidebar-links {
-            margin-bottom: 20px;
-        }
-
-        /* Style for the main discussion board area */
-        #discussion-board {
-            flex: 1; /* Allow it to grow and take available space */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9); /* Background color with transparency */
-        }
-
-        /* Style for the additional content area below the main discussion board */
-        #additional-content {
-            display: flex;
-            margin-top: 20px;
-        }
-
-        /* Style for individual boxes within the additional content area */
-        .box {
-            flex: 1;
-            padding: 20px;
-            margin-right: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px; /* Added border-radius */
-            border: 2px solid #262626; /* Added border with text color */
-        }
-
-        /* Remove right margin for the last box in the additional content area */
-        .box:last-child {
-            margin-right: 0;
-        }
-
-        /* Style for the footer section */
-        footer {
-            background-color: #262626;
-            color: #e6f2ff;
-            text-align: center;
-            padding: 1em;
-        }
-
-        /* Style for the demographic section */
-        #demographic {
-            flex: 0 0 auto; /* Non-flexible, initial width, not allowed to shrink */
-            padding: 20px;
-            background-color: #ffddcc; /* Light gray background color */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            border: 2px solid #262626; /* Added border with text color */
+        /* Style the iframe to fill its container */
+        #calendarFrame {
+            width: 100%;
+            height: 500px;
+            border: none; /* Remove iframe border */
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>Discussion Board</h1>
-    </header>
 
-    <!-- Main Content Area -->
-    <main>
-        <!-- Left Sidebar -->
-        <div id="left-sidebar">
-            <!-- User Profile Section -->
-            <div id="user-profile">
-                <!-- Profile Image Container -->
-                <div id="profile-image-container">
-                    <!-- Profile Image -->
-                    <img id="profile-image" src="/w3images/avatar2.png" alt="Profile Image">
-                </div>
-                <!-- User Details -->
-                <div id="user-details">
-                    <h2>User Profile</h2>
-                    <p>Name: John Doe</p>
-                    <!-- Icons for Reference Links -->
-                    <div id="reference-links">
-                        <h3>Reference Links</h3>
-                        <a href="#" class="icon"><i class="fab fa-google"></i></a>
-                        <a href="#" class="icon"><i class="fab fa-github"></i></a>
-                        <a href="#" class="icon"><i class="fas fa-envelope"></i></a>
-                        <!-- Add more icons as needed -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Links Section -->
-            <div id="sidebar-links">
-                <h2>Links</h2>
-                <ul>
-                    <!-- Add your manual links here -->
-                    <li><a href="#">Manual Link 1</a></li>
-                    <li><a href="#">Manual Link 2</a></li>
-                    <!-- Add more links as needed -->
-                </ul>
-            </div>
-        </div>
-
-        <!-- Main Discussion Board Area -->
-        <div id="discussion-board">
-            <!-- Container for Messages (To be dynamically populated with messages) -->
-            <div id="messages-container"></div>
-
-            <!-- Additional Content Area -->
-            <div id="additional-content">
-                <!-- Box 1 in Additional Content Area -->
-                <div class="box" style="background-color: #0099cc;">
-                    <h2>Box 1</h2>
-                    <p>Add your links and image source here.</p>
-                </div>
-
-                <!-- Box 2 in Additional Content Area -->
-                <div class="box" style="background-color: #cc6699;">
-                    <h2>Box 2</h2>
-                    <p>Add your links and image source here.</p>
-                </div>
-
-                <!-- Box 3 in Additional Content Area -->
-                <div class="box" style="background-color: #669999;">
-                    <h2>Box 3</h2>
-                    <p>Add your links and image source here.</p>
-                </div>
-
-                <!-- Box 4 in Additional Content Area -->
-                <div class="box" style="background-color: #666633;">
-                    <h2>Box 4</h2>
-                    <p>Add your links and image source here.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Demographic Section -->
-        <div id="demographic">
-            <h2>Demographic</h2>
-            <p>This section will auto-adjust based on the available space with margins.</p>
+<!-- Container for the iframe with borders -->
+<div id="calendarContainer">
+    <!-- Embed the calendar using an iframe -->
+    <iframe id="calendarFrame" frameborder="0" width="100%" src="https://calendar.online/05ff006083fba02965ab?iframe=true"></iframe>
+</div>
         </div>
     </main>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2024 Your Company</p>
-    </footer>
-</body>
-</html>

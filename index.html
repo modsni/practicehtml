@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Triage Template</title>
+<title>Auto-Generated Text Template</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -13,8 +13,10 @@
         color: #fff; /* Text color */
     }
     .container {
-        max-width: 600px;
-        margin: 50px auto;
+        width: 90%; /* Responsive width */
+        max-width: 355px;
+        min-height: 798px; /* Minimum height */
+        margin: auto;
         padding: 20px;
         background-color: #333; /* Dark container background */
         border-radius: 8px;
@@ -95,11 +97,25 @@
         margin-top: 10px;
         background-color: #444; /* Dark assignee options background */
     }
+
+    /* Responsive adjustments */
+    @media (max-width: 400px) {
+        .container {
+            padding: 10px;
+            min-height: auto;
+        }
+        button {
+            margin-bottom: 5px;
+        }
+        .text-output {
+            min-height: 150px;
+        }
+    }
 </style>
 </head>
 <body>
 <div class="container">
-    <h1>Triage Template</h1>
+    <h1>Auto-Generated Text Template</h1>
     <div class="input-container">
         <label for="assigneeName">Select assignee:</label>
         <select id="assigneeName">

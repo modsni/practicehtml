@@ -9,62 +9,80 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #f0f0f0;
+        background-color: #222; /* Dark background */
+        color: #fff; /* Text color */
     }
     .container {
         max-width: 600px;
         margin: 50px auto;
         padding: 20px;
-        background-color: #fff;
+        background-color: #333; /* Dark container background */
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     h1 {
         text-align: center;
-        color: #333;
+        color: #fff; /* Header text color */
         margin-bottom: 20px;
     }
     .input-container {
         margin-bottom: 20px;
-        border: 1px solid #ccc;
+        border: 1px solid #555; /* Darker border color */
         padding: 10px;
         border-radius: 5px;
+        background-color: #444; /* Dark input background */
     }
     label {
         display: block;
         margin-bottom: 5px;
+        color: #fff; /* Label text color */
     }
     input, select {
         width: calc(100% - 20px);
         padding: 8px;
         margin-bottom: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid #555; /* Darker border color */
         border-radius: 5px;
         box-sizing: border-box;
+        background-color: #666; /* Input background */
+        color: #fff; /* Input text color */
     }
     button {
         width: 100%;
         padding: 10px;
-        background-color: #007bff;
-        color: #fff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
     button:hover {
-        background-color: #0056b3;
+        filter: brightness(110%);
+    }
+    button.generate {
+        background-color: #007bff; /* Blue color for generate button */
+        color: #fff;
+        margin-bottom: 10px;
+    }
+    button.clear {
+        background-color: #ff4444; /* Red color for clear button */
+        color: #fff;
+        margin-bottom: 10px;
+    }
+    button.copy {
+        background-color: #4CAF50; /* Green color for copy button */
+        color: #fff;
     }
     .text-output {
         padding: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid #555; /* Darker border color */
         border-radius: 5px;
-        background-color: #f9f9f9;
+        background-color: #666; /* Dark text output background */
         min-height: 200px;
         width: calc(100% - 20px);
         margin-bottom: 20px;
         resize: vertical;
         overflow-y: auto;
+        color: #fff; /* Text color */
     }
     .bold {
         font-weight: bold;
@@ -72,10 +90,11 @@
     .assignee-options {
         display: flex;
         justify-content: space-between;
-        border: 1px solid #ccc;
+        border: 1px solid #555; /* Darker border color */
         padding: 10px;
         border-radius: 5px;
         margin-top: 10px;
+        background-color: #444; /* Dark assignee options background */
     }
 </style>
 </head>
@@ -100,8 +119,9 @@
         <label for="triageTickets">Number of tickets needing triage:</label>
         <input type="number" id="triageTickets" min="0">
     </div>
-    <button onclick="generateCustomText()">Generate</button>
-    <button onclick="clearText()">Clear</button>
+    <button class="generate" onclick="generateCustomText()">Generate</button>
+    <button class="clear" onclick="clearText()">Clear</button>
+    <button class="copy" onclick="copyText()">Copy</button>
     <div class="text-output" id="textOutput" contenteditable="true"></div>
 </div>
 <script>
@@ -174,6 +194,18 @@
     // Function to clear the generated text
     function clearText() {
         document.getElementById('textOutput').innerHTML = "";
+    }
+
+    // Function to copy generated text
+    function copyText() {
+        const textOutput = document.getElementById('textOutput');
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(textOutput);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+        alert("Text copied to clipboard");
     }
 </script>
 </body>

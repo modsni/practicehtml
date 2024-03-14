@@ -13,10 +13,8 @@
         color: #fff; /* Text color */
     }
     .container {
-        width: 90%; /* Responsive width */
-        max-width: 355px;
-        min-height: 798px; /* Minimum height */
-        margin: auto;
+        max-width: 600px;
+        margin: 50px auto;
         padding: 20px;
         background-color: #333; /* Dark container background */
         border-radius: 8px;
@@ -29,7 +27,7 @@
     }
     .input-container {
         margin-bottom: 20px;
-        border: 2px solid #006400; /* Dark green border color */
+        border: 1px solid #555; /* Darker border color */
         padding: 10px;
         border-radius: 5px;
         background-color: #444; /* Dark input background */
@@ -43,7 +41,7 @@
         width: calc(100% - 20px);
         padding: 8px;
         margin-bottom: 10px;
-        border: 2px solid #006400; /* Dark green border color */
+        border: 1px solid #555; /* Darker border color */
         border-radius: 5px;
         box-sizing: border-box;
         background-color: #666; /* Input background */
@@ -52,11 +50,10 @@
     button {
         width: 100%;
         padding: 10px;
-        border: 2px solid #006400; /* Dark green border color */
+        border: none;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        margin-bottom: 10px;
     }
     button:hover {
         filter: brightness(110%);
@@ -64,10 +61,12 @@
     button.generate {
         background-color: #007bff; /* Blue color for generate button */
         color: #fff;
+        margin-bottom: 10px;
     }
     button.clear {
         background-color: #ff4444; /* Red color for clear button */
         color: #fff;
+        margin-bottom: 10px;
     }
     button.copy {
         background-color: #4CAF50; /* Green color for copy button */
@@ -75,7 +74,7 @@
     }
     .text-output {
         padding: 10px;
-        border: 2px solid #006400; /* Dark green border color */
+        border: 1px solid #555; /* Darker border color */
         border-radius: 5px;
         background-color: #666; /* Dark text output background */
         min-height: 200px;
@@ -91,25 +90,11 @@
     .assignee-options {
         display: flex;
         justify-content: space-between;
-        border: 2px solid #006400; /* Dark green border color */
+        border: 1px solid #555; /* Darker border color */
         padding: 10px;
         border-radius: 5px;
         margin-top: 10px;
         background-color: #444; /* Dark assignee options background */
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 400px) {
-        .container {
-            padding: 10px;
-            min-height: auto;
-        }
-        button {
-            margin-bottom: 5px;
-        }
-        .text-output {
-            min-height: 150px;
-        }
     }
 </style>
 </head>
@@ -128,7 +113,7 @@
             <option value="No auto assignee - Needs review">No auto assignee - Needs review</option>
             <option value="Support Team">Support Team</option>
         </select>
-        <button class="generate" onclick="addAssigneeOption()">Add Option</button>
+        <button onclick="addAssigneeOption()">Add Option</button>
     </div>
     <div class="input-container">
         <label for="triageTickets">Number of tickets needing triage:</label>

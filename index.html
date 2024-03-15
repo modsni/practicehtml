@@ -119,6 +119,11 @@
         <label for="triageTickets">Number of tickets needing triage:</label>
         <input type="number" id="triageTickets" min="0">
     </div>
+    <div class="input-container">
+        <label for="newAssignee">Or enter a new assignee:</label>
+        <input type="text" id="newAssignee" placeholder="Enter new assignee name">
+        <button onclick="addNewAssignee()">Add New Assignee</button>
+    </div>
     <button class="generate" onclick="generateCustomText()">Generate</button>
     <button class="clear" onclick="clearText()">Clear</button>
     <button class="copy" onclick="copyText()">Copy</button>
@@ -147,25 +152,22 @@
 
         let text = '';
 
-        // For tickets needing triage
-        if (triageTickets === "0") {
-            textOutput.innerHTML += `<span class="bold">No tickets needing triage</span><br>`;
-        } else if (triageTickets > 0) {
-            textOutput.innerHTML += `<span class="bold">${triageTickets} tickets needing triage</span><br>`;
-        }
-
-        // Append new text to existing content
-        textOutput.innerHTML += text;
-
         // Generate text for additional assignee options
         const assigneeOptions = document.querySelectorAll('.assignee-options');
         assigneeOptions.forEach(option => {
             const assignee = option.dataset.assignee;
             const tickets = option.querySelector('.number-dropdown').value;
             if (tickets > 0) {
-                textOutput.innerHTML += `${tickets} ticket${tickets > 1 ? 's' : ''} assigned to @${assignee}<br>`;
+                text += `${tickets} ticket${tickets > 1 ? 's' : ''} assigned to @${assignee}<br>`;
             }
         });
+
+        // For tickets needing triage
+        if (triageTickets === "0") {
+            textOutput.innerHTML = text + `<span class="bold">No tickets needing triage</span><br>`;
+        } else if (triageTickets > 0) {
+            textOutput.innerHTML = text + `<span class="bold">${triageTickets} tickets needing triage</span><br>`;
+        }
     }
 
     // Function to add a number dropdown for an assignee option
@@ -206,6 +208,21 @@
         selection.addRange(range);
         document.execCommand('copy');
         alert("Text copied to clipboard");
+    }
+
+    // Function to add new assignee
+    function addNewAssignee() {
+        const newAssigneeInput = document.getElementById('newAssignee');
+        const newAssigneeName = newAssigneeInput.value.trim();
+        if (newAssigneeName !== "") {
+            const selectAssignee = document.getElementById("assigneeName");
+            const option = document.createElement("option");
+            option.text = newAssigneeName;
+            option.value = newAssigneeName;
+            selectAssignee.add(option);
+            newAssigneeInput.value = "";
+            addNumberDropdown(newAssigneeName, 0);
+        }
     }
 </script>
 </body>

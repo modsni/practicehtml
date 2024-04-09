@@ -72,6 +72,10 @@
         background-color: #4CAF50; /* Green color for copy button */
         color: #fff;
     }
+    button.delete {
+        background-color: #ff4444; /* Red color for delete button */
+        color: #fff;
+    }
     .text-output {
         padding: 10px;
         border: 1px solid #555; /* Darker border color */
@@ -96,12 +100,26 @@
         margin-top: 10px;
         background-color: #444; /* Dark assignee options background */
     }
-    .ticket-option {
+    .assignee-header {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 10px;
     }
-    .ticket-option input {
-        margin-right: 10px;
+    .assignee-header button {
+        margin: 0 5px;
+        padding: 5px;
+        background-color: #555;
+        border: none;
+        border-radius: 3px;
+        color: white;
+        cursor: pointer;
+    }
+    .assignee-header button:hover {
+        background-color: #777;
+    }
+    .ticket-input {
+        margin-bottom: 10px;
     }
 </style>
 </head>
@@ -134,10 +152,6 @@
         <input type="text" id="newAssignee" placeholder="Enter new assignee name">
         <button onclick="addNewAssignee()">Add New Assignee</button>
     </div>
-    <div class="input-container" id="ticketLinkContainer" style="display: none;">
-        <label for="ticketLink">Ticket Link:</label>
-        <input type="text" id="ticketLink" placeholder="Enter ticket link">
-    </div>
     <button class="generate" onclick="generateCustomText()">Generate</button>
     <button class="clear" onclick="clearText()">Clear</button>
     <button class="copy" onclick="copyText()">Copy</button>
@@ -158,14 +172,87 @@
         }
     }
 
-    // Generate text based on custom inputs and append to existing content
+    // Function to add ticket inputs for an assignee option
+    function addTicketInputs(assignee, tickets) {
+        const selectContainer = document.createElement("div");
+        selectContainer.classList.add("assignee-options");
+        selectContainer.dataset.assignee = assignee;
+        document.querySelector(".input-container").appendChild(selectContainer);
+
+        const assigneeHeader = document.createElement("div");
+        assigneeHeader.classList.add("assignee-header");
+        assigneeHeader.innerHTML = `
+            <strong>${assignee}</strong>
+            <button class="ticket-decrease" onclick="decreaseTicket(this)">-</button>
+            <span class="ticket-count">${tickets}</span>
+            <button class="ticket-increase" onclick="increaseTicket(this)">+</button>
+            <button class="delete" onclick="deleteAssignee(this)">Delete</button>
+        `;
+        selectContainer.appendChild(assigneeHeader);
+
+        for (let i = 1; i <= tickets; i++) {
+            const ticketInput = document.createElement("input");
+            ticketInput.type = "text";
+            ticketInput.classList.add("ticket-input");
+            ticketInput.dataset.ticket = i;
+            ticketInput.placeholder = `Enter ticket ${i} description`;
+            selectContainer.appendChild(ticketInput);
+        }
+    }
+
+    // Function to increase ticket count
+    function increaseTicket(button) {
+        const ticketCountSpan = button.parentElement.querySelector('.ticket-count');
+        const currentCount = parseInt(ticketCountSpan.textContent);
+        ticketCountSpan.textContent = currentCount + 1;
+        addTicketInput(button.parentElement.parentElement.dataset.assignee, currentCount + 1);
+    }
+
+    // Function to decrease ticket count
+    function decreaseTicket(button) {
+        const ticketCountSpan = button.parentElement.querySelector('.ticket-count');
+        const currentCount = parseInt(ticketCountSpan.textContent);
+        if (currentCount > 1) {
+            ticketCountSpan.textContent = currentCount - 1;
+            removeTicketInput(button.parentElement.parentElement.dataset.assignee, currentCount);
+        }
+    }
+
+    // Function to add a ticket input
+    function addTicketInput(assignee, ticketNumber) {
+        const selectContainer = document.querySelector(`.assignee-options[data-assignee="${assignee}"]`);
+        const ticketInput = document.createElement("input");
+        ticketInput.type = "text";
+        ticketInput.classList.add("ticket-input");
+        ticketInput.dataset.ticket = ticketNumber;
+        ticketInput.placeholder = `Enter ticket ${ticketNumber} description`;
+        selectContainer.appendChild(ticketInput);
+    }
+
+    // Function to remove a ticket input
+    function removeTicketInput(assignee, ticketNumber) {
+        const selectContainer = document.querySelector(`.assignee-options[data-assignee="${assignee}"]`);
+        const ticketInput = selectContainer.querySelector(`.ticket-input[data-ticket="${ticketNumber}"]`);
+        if (ticketInput) {
+            ticketInput.remove();
+        }
+    }
+
+    // Function to delete an assignee
+    function deleteAssignee(button) {
+        const assigneeContainer = button.parentElement.parentElement;
+        assigneeContainer.remove();
+    }
+
+    // Function to generate text based on custom inputs and append to existing content
     function generateCustomText() {
         const assigneeName = document.getElementById('assigneeName').value;
         const triageTickets = document.getElementById('triageTickets').value;
-        const ticketLink = document.getElementById('ticketLink').value;
         const textOutput = document.getElementById('textOutput');
 
         let text = '';
+
+      
 
         // Generate text for additional assignee options
         const assigneeOptions = document.querySelectorAll('.assignee-options');
@@ -192,26 +279,6 @@
         } else if (triageTickets > 0) {
             textOutput.innerHTML = text + `<span class="bold">${triageTickets} tickets needing triage</span><br>`;
         }
-    }
-
-    // Function to add ticket inputs for an assignee option
-    function addTicketInputs(assignee, tickets) {
-        const selectContainer = document.createElement("div");
-        selectContainer.classList.add("assignee-options");
-        selectContainer.dataset.assignee = assignee;
-        document.querySelector(".input-container").appendChild(selectContainer);
-
-        for (let i = 1; i <= tickets; i++) {
-            const ticketInput = document.createElement("input");
-            ticketInput.type = "text";
-            ticketInput.classList.add("ticket-input");
-            ticketInput.dataset.ticket = i;
-            ticketInput.placeholder = `Enter ticket ${i} description`;
-            selectContainer.appendChild(ticketInput);
-        }
-
-        const ticketLinkContainer = document.getElementById('ticketLinkContainer');
-        ticketLinkContainer.style.display = 'block';
     }
 
     // Function to clear the generated text

@@ -161,7 +161,12 @@
             const assignee = option.dataset.assignee;
             const tickets = option.querySelector('.number-dropdown').value;
             if (tickets > 0) {
-                text += `${tickets} ticket${tickets > 1 ? 's' : ''} assigned to @${assignee}<br>`;
+                text += `<strong>${assignee}</strong> (${tickets} ticket${tickets > 1 ? 's' : ''}):<br>`;
+                text += "<ul>"; // Start bullet list
+                for (let i = 1; i <= tickets; i++) {
+                    text += `<li>Ticket ${i} description</li>`; // Replace "Ticket ${i} description" with actual ticket descriptions
+                }
+                text += "</ul>"; // End bullet list
             }
         });
 

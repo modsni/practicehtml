@@ -89,12 +89,19 @@
     }
     .assignee-options {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         border: 1px solid #555; /* Darker border color */
         padding: 10px;
         border-radius: 5px;
         margin-top: 10px;
         background-color: #444; /* Dark assignee options background */
+    }
+    .ticket-option {
+        display: flex;
+        margin-bottom: 10px;
+    }
+    .ticket-option input {
+        margin-right: 10px;
     }
 </style>
 </head>
@@ -127,6 +134,10 @@
         <input type="text" id="newAssignee" placeholder="Enter new assignee name">
         <button onclick="addNewAssignee()">Add New Assignee</button>
     </div>
+    <div class="input-container" id="ticketLinkContainer" style="display: none;">
+        <label for="ticketLink">Ticket Link:</label>
+        <input type="text" id="ticketLink" placeholder="Enter ticket link">
+    </div>
     <button class="generate" onclick="generateCustomText()">Generate</button>
     <button class="clear" onclick="clearText()">Clear</button>
     <button class="copy" onclick="copyText()">Copy</button>
@@ -143,7 +154,7 @@
             option.text = assigneeName + ' (' + tickets + ' tickets)';
             option.value = assigneeName;
             selectAssignee.add(option);
-            addNumberDropdown(assigneeName, tickets);
+            addTicketInputs(assigneeName, tickets);
         }
     }
 
@@ -151,6 +162,7 @@
     function generateCustomText() {
         const assigneeName = document.getElementById('assigneeName').value;
         const triageTickets = document.getElementById('triageTickets').value;
+        const ticketLink = document.getElementById('ticketLink').value;
         const textOutput = document.getElementById('textOutput');
 
         let text = '';
@@ -159,14 +171,18 @@
         const assigneeOptions = document.querySelectorAll('.assignee-options');
         assigneeOptions.forEach(option => {
             const assignee = option.dataset.assignee;
-            const tickets = option.querySelector('.number-dropdown').value;
-            if (tickets > 0) {
-                text += `<strong>${assignee}</strong> (${tickets} ticket${tickets > 1 ? 's' : ''}):<br>`;
-                text += "<ul>"; // Start bullet list
-                for (let i = 1; i <= tickets; i++) {
-                    text += `<li>Ticket ${i} description</li>`; // Replace "Ticket ${i} description" with actual ticket descriptions
+            const tickets = option.querySelectorAll('.ticket-input');
+            let ticketText = '';
+            tickets.forEach(ticket => {
+                const ticketNumber = ticket.dataset.ticket;
+                const ticketDesc = ticket.value;
+                if (ticketDesc.trim() !== '') {
+                    ticketText += `<li>Ticket ${ticketNumber}: ${ticketDesc}</li>`;
                 }
-                text += "</ul>"; // End bullet list
+            });
+            if (ticketText !== '') {
+                text += `<strong>${assignee}</strong> (${tickets.length} ticket${tickets.length > 1 ? 's' : ''}):<br>`;
+                text += "<ul>" + ticketText + "</ul>";
             }
         });
 
@@ -178,27 +194,24 @@
         }
     }
 
-    // Function to add a number dropdown for an assignee option
-    function addNumberDropdown(assignee, tickets) {
+    // Function to add ticket inputs for an assignee option
+    function addTicketInputs(assignee, tickets) {
         const selectContainer = document.createElement("div");
         selectContainer.classList.add("assignee-options");
         selectContainer.dataset.assignee = assignee;
-        const label = document.createElement("label");
-        label.innerText = "Number of tickets for " + assignee + ": ";
-        const select = document.createElement("select");
-        select.classList.add("number-dropdown");
-        selectContainer.appendChild(label);
-        selectContainer.appendChild(select);
         document.querySelector(".input-container").appendChild(selectContainer);
 
-        const maxTickets = 10; // Maximum number of tickets, adjust as needed
-        for (let i = 0; i <= maxTickets; i++) {
-            const option = document.createElement("option");
-            option.value = i;
-            option.text = i;
-            select.appendChild(option);
+        for (let i = 1; i <= tickets; i++) {
+            const ticketInput = document.createElement("input");
+            ticketInput.type = "text";
+            ticketInput.classList.add("ticket-input");
+            ticketInput.dataset.ticket = i;
+            ticketInput.placeholder = `Enter ticket ${i} description`;
+            selectContainer.appendChild(ticketInput);
         }
-        select.value = tickets;
+
+        const ticketLinkContainer = document.getElementById('ticketLinkContainer');
+        ticketLinkContainer.style.display = 'block';
     }
 
     // Function to clear the generated text
@@ -229,7 +242,7 @@
             option.value = newAssigneeName;
             selectAssignee.add(option);
             newAssigneeInput.value = "";
-            addNumberDropdown(newAssigneeName, 0);
+            addTicketInputs(newAssigneeName, 1); // Default to one ticket input
         }
     }
 </script>
